@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import classes from "./AddMovie.module.css";
 
-const AddMovie = () => {
+const AddMovie = (props) => {
   const titleRef = useRef("");
   const openingTextRef = useRef("");
   const releaseDateRef = useRef("");
@@ -10,12 +10,13 @@ const AddMovie = () => {
     event.preventDefault();
 
     const movie = {
+      id: Math.random().toString(36),
       title: titleRef.current.value,
       openingText: openingTextRef.current.value,
       releaseDate: releaseDateRef.current.value,
     };
 
-    console.log(movie);
+    props.onAdd(movie);
   }
 
   return (
