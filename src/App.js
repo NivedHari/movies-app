@@ -31,6 +31,7 @@ function App() {
           openingText: data[key].openingText,
           releaseDate: data[key].releaseDate,
         });
+        
       }
 
       setMovies(loadedMovies);
@@ -49,10 +50,7 @@ function App() {
     setError(error.message);
   };
 
-  useEffect(() => {
-    fetchMoviesHandler();
-  }, [fetchMoviesHandler]);
-
+  
   const addMovieHandler = async (movie) => {
     const response = await fetch(
       "https://react-http-c2562-default-rtdb.firebaseio.com/movies.json",
@@ -64,25 +62,21 @@ function App() {
         },
       }
     );
-    const data = await response.json();
-    console.log(data);
+    fetchMoviesHandler();
+    
   };
+  useEffect(() => {
+    fetchMoviesHandler();
+  }, [fetchMoviesHandler],movies);
 
-  const moviedeleteHandler = async (id) => {
-    try {
-      const response = await fetch(
-        `https://react-http-c2562-default-rtdb.firebaseio.com/movies/${id}.json`,
-        {
-          method: "DELETE",
-        }
-      );
 
-      console.log("Movie deleted successfully");
-    } catch (error) {
-      console.error("Error deleting movie:", error.message);
-    }
+  const deleteMovieHandler = (updatedMovies) => {
+    setMovies(updatedMovies);
   };
+  
 
+
+  
   return (
     <React.Fragment>
       <section>
@@ -93,7 +87,7 @@ function App() {
       </section>
       <section>
         {!isLoading && movies.length > 0 && (
-          <MoviesList onDelete={moviedeleteHandler} movies={movies} />
+          <MoviesList movies={movies} onDeleteMovie={deleteMovieHandler} />
         )}
         {!isLoading && movies.length === 0 && !error && <p>Found no Movies</p>}
         {!isLoading && error && <p>{error}</p>}

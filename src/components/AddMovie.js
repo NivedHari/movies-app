@@ -10,7 +10,6 @@ const AddMovie = (props) => {
     event.preventDefault();
 
     const movie = {
-      id: Math.random().toString(36),
       title: titleRef.current.value,
       openingText: openingTextRef.current.value,
       releaseDate: releaseDateRef.current.value,
